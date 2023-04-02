@@ -1,16 +1,23 @@
 var pontinho = ".";
 var flagPontinho = false;
-var numero1 = 0, numero2 = 0, flag = "", resultadoParcial = 0;
+var flagResultado = false;
+var numero1 = 0, numero2 = 0, flag = "";
 
 
 function pegarNumero(numBotao) {
-    document.getElementById("telinha").value = document.getElementById("telinha").value + numBotao;
+    if (flagResultado == true) {
+        console.log("Conta finalizada!");
+    } else {
+        document.getElementById("telinha").value = document.getElementById("telinha").value + numBotao;
+    }
 }
 
 function colocarPonto() {
     if (document.getElementById("telinha").value == "") {
         console.log("pontinho falhou kk");
         flagPontinho = false;
+    } else if (flagResultado == true) {
+        console.log("Conta finalizada!");
     } else if (flagPontinho == false) {
         document.getElementById("telinha").value += pontinho;
         flagPontinho = true;
@@ -18,17 +25,22 @@ function colocarPonto() {
 }
 
 function limparTela() {
-    document.getElementById("telinha").value = "";
-    flagPontinho = false;
+    if (flagResultado == true) {
+        console.log("Conta finalizada!");
+    } else {
+        document.getElementById("telinha").value = "";
+        flagPontinho = false;
+    }
+
 }
 
 function limparDados() {
-    document.getElementById("telinha").value = ""
     numero1 = 0;
     numero2 = 0;
-    resultadoParcial = 0;
     flag = "";
     flagPontinho = false;
+    flagResultado = false;
+    limparTela();
 }
 
 /*
@@ -103,206 +115,231 @@ function realizarOperacao(flagOperacao) {
     switch (flagOperacao) {
 
         case "+":
-            if (flag == "") {
-                flag = "+";
-                console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
-            }
 
-            if (flag == "-") {
-                numero1 = parseFloat(document.getElementById("telinha").value);
-                numero2 = numero2 - numero1;
-                flag = "+";
-                console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
-                limparTela();
-            } else if (flag == "x") {
-                numero1 = parseFloat(document.getElementById("telinha").value);
-                numero2 = numero2 * numero1;
-                flag = "+";
-                console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
-                limparTela();
-            } else if (flag == "/") {
-                numero1 = parseFloat(document.getElementById("telinha").value);
-                numero2 = numero2 / numero1;
-                flag = "+";
-                console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
-                limparTela();
-            } else if (flag == "+") {
+            //Indica se o resultado está aparecendo na tela ou não (se estiver, bloqueia qualquer operação)
+            if (flagResultado == true) {
+                console.log("Conta finalizada!");
+            } else {
 
-                if (document.getElementById("telinha").value == "") {
-                    console.log(`FAÇA NADA\nnumero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
-                } else if (numero1 == 0) {
-                    numero1 = parseFloat(document.getElementById("telinha").value);
-                    numero2 = numero1;
+                //flag começa sem valor, ou seja, devemos num 1º momento definir qual sera o valor inicial dela (será o da 1º operação)
+                if ((flag == "") && (document.getElementById("telinha").value != "")) {
                     flag = "+";
-                    console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
-                    limparTela();
-                } else {
-                    numero1 = parseFloat(document.getElementById("telinha").value);
-                    numero2 += numero1; //ordem dos fatores não altera a soma
-                    flag = "+";
-                    console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
-                    limparTela();
                 }
 
+                //Verifica a última flag para resolver a próxima operação
+                if (flag == "-") {
+                    numero1 = parseFloat(document.getElementById("telinha").value);
+                    numero2 = numero2 - numero1;
+                    flag = "+";
+                    console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
+                    limparTela();
+                } else if (flag == "x") {
+                    numero1 = parseFloat(document.getElementById("telinha").value);
+                    numero2 = numero2 * numero1;
+                    flag = "+";
+                    console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
+                    limparTela();
+                } else if (flag == "/") {
+                    numero1 = parseFloat(document.getElementById("telinha").value);
+                    numero2 = numero2 / numero1;
+                    flag = "+";
+                    console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
+                    limparTela();
+                } else if (flag == "+") {
+
+                    if (document.getElementById("telinha").value == "") {
+                        console.log(`Não existe números na tela\nflag: ${flag}`);
+                    } else if (numero1 == 0) {
+                        numero1 = parseFloat(document.getElementById("telinha").value);
+                        numero2 = numero1;
+                        flag = "+";
+                        console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
+                        limparTela();
+                    } else {
+                        numero1 = parseFloat(document.getElementById("telinha").value);
+                        numero2 += numero1; //ordem dos fatores não altera a soma
+                        flag = "+";
+                        console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
+                        limparTela();
+                    }
+
+                }
             }
-
-
             break;
+
 
         case "-":
-            if (flag == "") {
-                flag = "-";
-                console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
-            }
-
-            if (flag == "+") {
-                numero1 = parseFloat(document.getElementById("telinha").value);
-                numero2 = numero2 + numero1;
-                flag = "-";
-                console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
-                limparTela();
-            } else if (flag == "x") {
-                numero1 = parseFloat(document.getElementById("telinha").value);
-                numero2 = numero2 * numero1;
-                flag = "-";
-                console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
-                limparTela();
-            } else if (flag == "/") {
-                numero1 = parseFloat(document.getElementById("telinha").value);
-                numero2 = numero2 / numero1;
-                flag = "-";
-                console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
-                limparTela();
-            } else if (flag == "-") {
-
-                if (document.getElementById("telinha").value == "") {
-                    console.log(`FAÇA NADA\nnumero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
-                } else if (numero1 == 0) {
-                    numero1 = parseFloat(document.getElementById("telinha").value); //numero1 é a variavel pra pegar o valor do HTML
-                    numero2 = numero1;
+            if (flagResultado == true) {
+                console.log("Conta finalizada!");
+            } else {
+                if ((flag == "") && (document.getElementById("telinha").value != "")) {
                     flag = "-";
-                    console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
-                    limparTela();
-                } else {
-                    numero1 = parseFloat(document.getElementById("telinha").value);
-                    numero2 = (numero2 - numero1); //o numero2 se torna o primeiro valor inserido, por isso vai na frente
-                    flag = "-";
-                    console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
-                    limparTela();
                 }
 
+                if (flag == "+") {
+                    numero1 = parseFloat(document.getElementById("telinha").value);
+                    numero2 = numero2 + numero1;
+                    flag = "-";
+                    console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
+                    limparTela();
+                } else if (flag == "x") {
+                    numero1 = parseFloat(document.getElementById("telinha").value);
+                    numero2 = numero2 * numero1;
+                    flag = "-";
+                    console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
+                    limparTela();
+                } else if (flag == "/") {
+                    numero1 = parseFloat(document.getElementById("telinha").value);
+                    numero2 = numero2 / numero1;
+                    flag = "-";
+                    console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
+                    limparTela();
+                } else if (flag == "-") {
+
+                    if (document.getElementById("telinha").value == "") {
+                        console.log(`Não existe números na tela\nflag: ${flag}`);
+                    } else if (numero1 == 0) {
+                        numero1 = parseFloat(document.getElementById("telinha").value); //numero1 é a variavel pra pegar o valor do HTML
+                        numero2 = numero1;
+                        flag = "-";
+                        console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
+                        limparTela();
+                    } else {
+                        numero1 = parseFloat(document.getElementById("telinha").value);
+                        numero2 = (numero2 - numero1); //o numero2 se torna o primeiro valor inserido, por isso vai na frente
+                        flag = "-";
+                        console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
+                        limparTela();
+                    }
+
+                }
             }
+
             break;
+
 
         case "x":
-            if (flag == "") {
-                flag = "x";
-                console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
-            }
-
-            if (flag == "+") {
-                numero1 = parseFloat(document.getElementById("telinha").value);
-                numero2 = numero2 + numero1;
-                flag = "x";
-                console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
-                limparTela();
-            } else if (flag == "-") {
-                numero1 = parseFloat(document.getElementById("telinha").value);
-                numero2 = numero2 - numero1;
-                flag = "x";
-                console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
-                limparTela();
-            } else if (flag == "/") {
-                numero1 = parseFloat(document.getElementById("telinha").value);
-                numero2 = numero2 / numero1;
-                flag = "x";
-                console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
-                limparTela();
-            } else if (flag == "x") {
-
-                if (document.getElementById("telinha").value == "") {
-                    console.log(`FAÇA NADA\nnumero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
-                } else if (numero1 == 0) {
-                    numero1 = parseFloat(document.getElementById("telinha").value); //numero1 é a variavel pra pegar o valor do HTML
-                    numero2 = numero1;
+            if (flagResultado == true) {
+                console.log("Conta finalizada!");
+            } else {
+                if ((flag == "") && (document.getElementById("telinha").value != "")) {
                     flag = "x";
-                    console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
-                    limparTela();
-                } else {
-                    numero1 = parseFloat(document.getElementById("telinha").value);
-                    numero2 = (numero2 * numero1); //ordem dos fatores não altera o produto
-                    flag = "x";
-                    console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
-                    limparTela();
                 }
 
+                if (flag == "+") {
+                    numero1 = parseFloat(document.getElementById("telinha").value);
+                    numero2 = numero2 + numero1;
+                    flag = "x";
+                    console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
+                    limparTela();
+                } else if (flag == "-") {
+                    numero1 = parseFloat(document.getElementById("telinha").value);
+                    numero2 = numero2 - numero1;
+                    flag = "x";
+                    console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
+                    limparTela();
+                } else if (flag == "/") {
+                    numero1 = parseFloat(document.getElementById("telinha").value);
+                    numero2 = numero2 / numero1;
+                    flag = "x";
+                    console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
+                    limparTela();
+                } else if (flag == "x") {
+
+                    if (document.getElementById("telinha").value == "") {
+                        console.log(`Não existe números na tela\nflag: ${flag}`);
+                    } else if (numero1 == 0) {
+                        numero1 = parseFloat(document.getElementById("telinha").value); //numero1 é a variavel pra pegar o valor do HTML
+                        numero2 = numero1;
+                        flag = "x";
+                        console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
+                        limparTela();
+                    } else {
+                        numero1 = parseFloat(document.getElementById("telinha").value);
+                        numero2 = (numero2 * numero1); //ordem dos fatores não altera o produto
+                        flag = "x";
+                        console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
+                        limparTela();
+                    }
+
+                }
             }
             break;
+
 
         case "/":
-            if (flag == "") {
-                flag = "/";
-                console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
-            }
-
-            if (flag == "+") {
-                numero1 = parseFloat(document.getElementById("telinha").value);
-                numero2 = numero2 + numero1;
-                flag = "/";
-                console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
-                limparTela();
-            } else if (flag == "-") {
-                numero1 = parseFloat(document.getElementById("telinha").value);
-                numero2 = numero2 - numero1;
-                flag = "/";
-                console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
-                limparTela();
-            } else if (flag == "x") {
-                numero1 = parseFloat(document.getElementById("telinha").value);
-                numero2 = (numero2 * numero1);
-                flag = "/";
-                console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
-                limparTela();
-            } else if (flag == "/") {
-
-                if (document.getElementById("telinha").value == "") {
-                    console.log(`FAÇA NADA\nnumero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
-                } else if (numero1 == 0) {
-                    numero1 = parseFloat(document.getElementById("telinha").value); //numero1 é a variavel pra pegar o valor do HTML
-                    numero2 = numero1;
+            if (flagResultado == true) {
+                console.log("Conta finalizada!");
+            } else {
+                if ((flag == "") && (document.getElementById("telinha").value != "")) {
                     flag = "/";
-                    console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
-                    limparTela();
-                } else {
-                    numero1 = parseFloat(document.getElementById("telinha").value);
-                    numero2 = (numero2 / numero1); //o numero2 se torna o primeiro valor inserido, por isso vai na frente
-                    flag = "/";
-                    console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
-                    limparTela();
                 }
 
+                if (flag == "+") {
+                    numero1 = parseFloat(document.getElementById("telinha").value);
+                    numero2 = numero2 + numero1;
+                    flag = "/";
+                    console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
+                    limparTela();
+                } else if (flag == "-") {
+                    numero1 = parseFloat(document.getElementById("telinha").value);
+                    numero2 = numero2 - numero1;
+                    flag = "/";
+                    console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
+                    limparTela();
+                } else if (flag == "x") {
+                    numero1 = parseFloat(document.getElementById("telinha").value);
+                    numero2 = (numero2 * numero1);
+                    flag = "/";
+                    console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
+                    limparTela();
+                } else if (flag == "/") {
+
+                    if (document.getElementById("telinha").value == "") {
+                        console.log(`Não existe números na tela\nflag: ${flag}`);
+                    } else if (numero1 == 0) {
+                        numero1 = parseFloat(document.getElementById("telinha").value); //numero1 é a variavel pra pegar o valor do HTML
+                        numero2 = numero1;
+                        flag = "/";
+                        console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
+                        limparTela();
+                    } else {
+                        numero1 = parseFloat(document.getElementById("telinha").value);
+                        numero2 = (numero2 / numero1); //o numero2 se torna o primeiro valor inserido, por isso vai na frente
+                        flag = "/";
+                        console.log(`numero1: ${numero1}\nnumero2: ${numero2}\nflag: ${flag}`);
+                        limparTela();
+                    }
+
+                }
             }
             break;
+
 
         case "=":
+            if (document.getElementById("telinha").value == "") {
+                console.log("Nenhum resultado a ser mostrado");
+            } else if (flagResultado == true) {
+                console.log("Conta finalizada!");
+            } else {
+                if (flag == "+") {
+                    numero1 = parseFloat(document.getElementById("telinha").value);
+                    numero2 = numero2 + numero1;
+                } else if (flag == "-") {
+                    numero1 = parseFloat(document.getElementById("telinha").value);
+                    numero2 = numero2 - numero1;
+                } else if (flag == "x") {
+                    numero1 = parseFloat(document.getElementById("telinha").value);
+                    numero2 = numero2 * numero1;
+                } else if (flag == "/") {
+                    numero1 = parseFloat(document.getElementById("telinha").value);
+                    numero2 = numero2 / numero1;
+                }
 
-            if (flag == "+") {
-                numero1 = parseFloat(document.getElementById("telinha").value);
-                numero2 = numero2 + numero1;
-            } else if (flag == "-") {
-                numero1 = parseFloat(document.getElementById("telinha").value);
-                numero2 = numero2 - numero1;
-            } else if (flag == "x") {
-                numero1 = parseFloat(document.getElementById("telinha").value);
-                numero2 = numero2 * numero1;
-            } else if (flag == "/") {
-                numero1 = parseFloat(document.getElementById("telinha").value);
-                numero2 = numero2 / numero1;
+                document.getElementById("telinha").value = `Resultado: ${numero2}`;
+                flagResultado = true;
             }
-
-            document.getElementById("telinha").value = `Resultado: ${numero2}`;
             break;
-
     }
 
 }
