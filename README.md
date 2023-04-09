@@ -1,3 +1,3 @@
 # CalculadoraWeb 
-Projeto de uma Calculadora Web utilizando de HTML, CSS e JavaScript. <br>
+Projeto de uma <b> Calculadora Web </br> utilizando de <i> HTML, CSS e JavaScript </i>. <br>
 A calculadora realiza as 4 operações básicas: Adição, Subtração, Multiplicação e Divisão.
