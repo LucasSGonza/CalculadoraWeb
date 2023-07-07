@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora WEB!</title>
+    <link rel="stylesheet" type="text/css" href="cssDeCria.css" />
+</head>
+
+<body>
+    <script src="codiguin.js"></script>
+    <div id="div-principal">
+        <h1>Calculadora WEB!</h1>
+
+        <div id="div-numero1">
+            <label id="label1"><b>Digite um número:</b><br><input type="text" id="numero1"
+                    onblur="verificarNumero(this.value)"></label>
+        </div>
+
+        <div id="div-numero2">
+            <label id="label2"><b>Digite um número:<br> <input type="text" id="numero2"
+                    onblur="verificarNumero(this.value)"></label>
+        </div>
+
+        <div id="div-operacao">
+            <label id="labelOperacao">
+                <b>Escolha uma operação:</b><br>
+                <select name="select" id="operacoes">
+                    <option value="adicao" selected>Adição</option>
+                    <option value="subtracao">Subtração</option>
+                    <option value="multiplicacao">Multiplicação</option>
+                    <option value="divisao">Divisão</option>
+                </select>
+            </label>
+        </div>
+
+        <div id="div-calcular-limpar">
+            <button onclick="selecionarOperacao()">Calcular</button>
+            <button onclick="limparCampos()">Limpar</button>
+            <!-- <button onclick="continuar()">Continuar</button> -->
+            <hr>
+        </div>
+
+        <div id="div-resultado">
+            <label id="labelResultado">
+                <!--<p id="resultado-parcial">resultado parcial: </p> -->
+                <p id="resultado">Resultado:</p> 
+            </label>
+        </div>
+
+    </div>
+</body>
+
+</html>

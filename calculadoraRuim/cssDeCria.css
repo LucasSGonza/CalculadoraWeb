@@ -1,0 +1,39 @@
+body {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-large;
+    background-image: url(macaco.gif);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+#div-principal{
+    text-align: center;
+    margin-top: 50px;
+}
+
+#div-numero1 {
+    margin-bottom: 50px;
+}
+
+#div-numero2 {
+    margin-bottom: 50px;
+}
+
+#div-calcular-limpar {
+    margin-top: 50px;
+}
+
+#div-resultado {
+    margin-top: 50px;
+}
+
+input {
+    margin-top: 20px;
+}
+
+hr {
+    width: 600px;
+    margin-top: 50px;
+}
